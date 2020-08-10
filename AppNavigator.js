@@ -12,6 +12,7 @@ import Home from './Home';
 import HomeScreen from './HomeScreen';
 import Logout from './Logout';
 import Loading from './Loading';
+import ForgetPasswordCode from './ForgetPasswordCode';
 
 const AppNavigator = createStackNavigator({
   First: { screen: First,
@@ -54,7 +55,10 @@ const AppNavigator = createStackNavigator({
     },   
     Logout: {
 			screen: Logout
-		},
+    },
+    ForgetPasswordCode: {
+      screen: ForgetPasswordCode
+    },
 },
 {
   initialRouteName: 'First',

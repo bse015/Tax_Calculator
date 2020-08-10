@@ -49,25 +49,61 @@ export default class Login extends Component {
 
 
 
-  validateEmail = (text) => {
-    console.log(text);
-    let reg = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
-    if (reg.test(text)) {
-      console.log("Email is Correct");
-    //  console.warn("Email is Correct");
-      this.setState({ 
-        emailValidator: true, 
-        email: text
-      })
+  forgetPassword = () =>{
+    console.log('getting data from fetch+++++++++++++++++++++++++')
+      if (this.state.email != '') {
+
+  fetch('http://167.71.64.243:9090/userLogin/forgetPassword', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "email": this.state.email,
     }
-    else {
-      console.log("Email is not Correct");
-    //  console.warn("Email is not Correct");
-      this.setState({
-        emailValidator: false,
-       })
+    )},)
+    .then((response) => response.json())
+    .then((json) => {
+      if(json.success === true )
+      {
+      this.props.navigation.push('ForgetPasswordCode')
     }
+    else{
+      alert('Invalid Email')
+    }
+      console.log('getting data from fetch => ',json)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
+else{
+  alert('Please Enter Email')
+}
+}
+
+
+
+
+
+validateEmail = (text) => {
+  console.log(text);
+  let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (reg.test(text)) {
+    console.log("Email is Correct");
+    this.setState({ 
+      emailValidator: true, 
+      email: text
+    })
+  }
+  else {
+    console.log("Email is not Correct");
+    this.setState({
+      emailValidator: false,
+     })
+  }
+}
 
 
   render() {
@@ -78,6 +114,7 @@ export default class Login extends Component {
             <View style={styles.responsiveBox}> 
 
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
+
 
       <Image source = {{uri:'https://ps.w.org/mass-users-password-reset/assets/icon-256x256.png?rev=1721166'}}  
       style = {styles.img}  
@@ -96,7 +133,7 @@ export default class Login extends Component {
                keyboardType = 'email-address'
                autoCapitalize = "none"
                blurOnSubmit= {true}
-               onChangeText={(text) => this.validateEmail(text)}
+               onChangeText={(text) => this. validateEmail(text)}
               />
              
         </View>
@@ -104,7 +141,7 @@ export default class Login extends Component {
         
 
         <Button
-         onPress={this._simpleAlertHandler}
+         onPress={this.forgetPassword}
          title="Submit" 
          color="#009933" 
          />
@@ -167,14 +204,14 @@ text: {
   fontSize: wp(4),
   fontWeight: '500',
   margin: wp(4),
-  textAlign: 'justify',
+  textAlign: 'center',
 
 },
 text1: {
   fontSize: wp(4),
   fontWeight: 'bold',
   margin: wp(3),
-  textAlign: 'justify',
+  textAlign: 'center',
 
 }
 });
